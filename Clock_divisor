@@ -1,0 +1,101 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: 
+// Engineer: 
+// 
+// Create Date: 06.05.2019 23:06:41
+// Design Name: 
+// Module Name: Clock_divisor
+// Project Name: 
+// Target Devices: 
+// Tool Versions: 
+// Description: 
+// 
+// Dependencies: 
+// 
+// Revision:
+// Revision 0.01 - File Created
+// Additional Comments:
+// 
+//////////////////////////////////////////////////////////////////////////////////
+
+
+module Clock_divisor
+#(parameter COUNTER_MAX_0 = 5000000,    //Contador necesario para lograr 10Hz
+  parameter COUNTER_MAX_1 = 1666667,    //Contador necesario para lograr 30Hz
+  parameter COUNTER_MAX_2 = 100000)     //Contador necesario para lograr 500Hz
+ (input logic Clock_fpga,
+  input logic CPU_RESETN,
+  output logic Clock_out_10_hz,         //Reloj de salida de 10Hz
+  output logic Clock_out_30_hz,         //Reloj de salida de 30Hz
+  output logic Clock_out_500_hz);       //Reloj de salida de 500Hz
+  
+  localparam DELAY_WIDTH_0 = $clog2(COUNTER_MAX_0);
+  logic [DELAY_WIDTH_0-1:0] counter_0 = 'd0;
+  
+  localparam DELAY_WIDTH_1 = $clog2(COUNTER_MAX_1);
+  logic [DELAY_WIDTH_1-1:0] counter_1 = 'd0;
+  
+  localparam DELAY_WIDTH_2 = $clog2(COUNTER_MAX_2);
+  logic [DELAY_WIDTH_2-1:0] counter_2 = 'd0;
+  
+  logic reset;
+  assign reset = ~CPU_RESETN;
+  
+  always_ff @(posedge Clock_fpga) begin
+  
+  //Inicio para obtener frecuencia de 10Hz
+    if (reset == 1'b1) begin                        
+        counter_0 <= 'd0;
+        Clock_out_10_hz <= 0;
+    end 
+    else if (counter_0 == COUNTER_MAX_0-1)begin
+        counter_0 <= 'd0;
+        Clock_out_10_hz = ~Clock_out_10_hz;
+        end 
+    else begin
+        counter_0 <= counter_0 + 'd1;
+        Clock_out_10_hz <= Clock_out_10_hz;
+        end
+  ///////////////////////////////////////////////
+  
+  //Inicio para obtener frecuencia de 30Hz
+    if (reset == 1'b1) begin
+        counter_1 <= 'd0;
+        Clock_out_30_hz <= 0;
+    end 
+    else if (counter_1 == COUNTER_MAX_1-1)begin
+        counter_1 <= 'd0;
+        Clock_out_30_hz = ~Clock_out_30_hz;
+        end 
+    else begin
+        counter_1 <= counter_1 + 'd1;
+        Clock_out_30_hz <= Clock_out_30_hz;
+        end
+  ///////////////////////////////////////////////
+        
+  //Inicio para obtener frecuencia de 500Hz
+    if (reset == 1'b1) begin
+        counter_2 <= 'd0;
+        Clock_out_500_hz <= 0;
+    end 
+    else if (counter_2 == COUNTER_MAX_2-1)begin
+        counter_2 <= 'd0;
+        Clock_out_500_hz = ~Clock_out_500_hz;
+        end 
+    else begin
+        counter_2 <= counter_2 + 'd1;
+        Clock_out_500_hz <= Clock_out_500_hz;
+        end
+  ///////////////////////////////////////////////
+       
+    end
+ 
+endmodule
+        
+        
+  
+    
+    
+    
+
