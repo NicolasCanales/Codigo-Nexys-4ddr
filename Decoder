@@ -1,0 +1,56 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: 
+// Engineer: 
+// 
+// Create Date: 06.05.2019 12:04:27
+// Design Name: 
+// Module Name: Decoder
+// Project Name: 
+// Target Devices: 
+// Tool Versions: 
+// Description: 
+// 
+// Dependencies: 
+// 
+// Revision:
+// Revision 0.01 - File Created
+// Additional Comments:
+// 
+//////////////////////////////////////////////////////////////////////////////////
+
+
+module Decoder
+    
+   (input logic [3:0] Switch, //0123
+    output logic [7:0] Display, // Eleccion del display
+    //output logic Out_dp, // Salida Puntito
+    output logic [6:0] Seven_seg); //abcdefg
+            
+   // assign 
+    //assign [7:0] 
+    
+    always_comb begin
+        //Out_dp = 1'b1;  
+        Display = 8'b11111110;  
+        case(Switch)
+            4'd0:   Seven_seg = 7'b0000001;     // CERO
+            4'd1:   Seven_seg = 7'b1001111;     // UNO
+            4'd2:   Seven_seg = 7'b0010010;     // DOS
+            4'd3:   Seven_seg = 7'b0000110;     // TRES
+            4'd4:   Seven_seg = 7'b1001100;     // CUATRO
+            4'd5:   Seven_seg = 7'b0100100;     // CINCO
+            4'd6:   Seven_seg = 7'b0100000;     // SEIS
+            4'd7:   Seven_seg = 7'b0001111;     // SIETE
+            4'd8:   Seven_seg = 7'b0000000;     // OCHO
+            4'd9:   Seven_seg = 7'b0000100;     // NUEVE
+            4'd10:  Seven_seg = 7'b0001000;     // A
+            4'd11:  Seven_seg = 7'b1100000;     // B
+            4'd12:  Seven_seg = 7'b0110001;     // C
+            4'd13:  Seven_seg = 7'b1000010;     // D
+            4'd14:  Seven_seg = 7'b0110000;     // E
+            4'd15:  Seven_seg = 7'b0111000;     // F
+         endcase
+    end  
+    
+endmodule
